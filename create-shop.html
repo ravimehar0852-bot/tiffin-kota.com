@@ -159,22 +159,22 @@ background:#8a2d2d;
 
 <div class="input-group">
 <label>Delivery Time</label>
-<input type="text" placeholder="30 Minutes">
+<input type="text" id="deliveryTime" placeholder="30 Minutes">
 </div>
 
 <div class="input-group">
 <label>Minimum Order Amount</label>
-<input type="number" placeholder="100">
+<input type="number" id="minimumOrder" placeholder="100">
 </div>
 
 <div class="input-group">
 <label>Shop Logo</label>
-<input type="file" accept="image/*">
+<input type="file" id="shopLogo" accept="image/*">
 </div>
 
 <div class="input-group">
 <label>Shop Banner</label>
-<input type="file" accept="image/*">
+<input type="file" id="shopBanner" accept="image/*">
 </div>
 
 <button type="submit">
@@ -200,6 +200,6 @@ window.location.href="partner-dashboard.html";
 });
 
 </script>
-
+<script type="module" src="js/create-shop.js"></script>
 </body>
 </html>
