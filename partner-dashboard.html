@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Partner Dashboard | TiffinKota</title>
+
+<link rel="stylesheet" href="style.css">
+
+<style>
+
+body{
+margin:0;
+font-family:Arial,sans-serif;
+background:#f8f6f2;
+}
+
+header{
+background:#6B1E1E;
+color:#fff;
+padding:20px;
+text-align:center;
+}
+
+.profile{
+background:#fff;
+margin:20px;
+padding:20px;
+border-radius:15px;
+box-shadow:0 5px 15px rgba(0,0,0,.1);
+text-align:center;
+}
+
+.profile img{
+width:90px;
+height:90px;
+border-radius:50%;
+object-fit:cover;
+}
+
+.profile h2{
+margin:15px 0 5px;
+}
+
+.profile p{
+color:#777;
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:15px;
+margin:20px;
+}
+
+.card{
+background:#fff;
+padding:25px;
+border-radius:15px;
+text-align:center;
+box-shadow:0 5px 15px rgba(0,0,0,.08);
+cursor:pointer;
+transition:.3s;
+}
+
+.card:hover{
+transform:translateY(-5px);
+}
+
+.logout{
+margin:20px;
+}
+
+.logout button{
+width:100%;
+padding:15px;
+border:none;
+background:#6B1E1E;
+color:#fff;
+font-size:16px;
+border-radius:12px;
+cursor:pointer;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+<h1>Partner Dashboard</h1>
+
+</header>
+
+<div class="profile">
+
+<img id="partnerPhoto"
+src="https://ui-avatars.com/api/?name=Partner">
+
+<h2 id="partnerName">Loading...</h2>
+
+<p id="partnerEmail">Loading...</p>
+
+</div>
+
+<div class="grid">
+
+<div class="card" onclick="location.href='create-shop.html'">
+🏪
+<h3>Create Shop</h3>
+</div>
+
+<div class="card">
+🍱
+<h3>Add Product</h3>
+</div>
+
+<div class="card">
+📦
+<h3>Orders</h3>
+</div>
+
+<div class="card">
+👥
+<h3>Customers</h3>
+</div>
+
+<div class="card">
+📊
+<h3>Analytics</h3>
+</div>
+
+<div class="card">
+⚙️
+<h3>Settings</h3>
+</div>
+
+</div>
+
+<div class="logout">
+
+<button id="logoutBtn">
+Logout
+</button>
+
+</div>
+
+<script type="module">
+
+import { auth } from "./js/firebase.js";
+
+import {
+onAuthStateChanged,
+signOut
+}
+from "https://www.gstatic.com/firebasejs/10.13.2/firebase-auth.js";
+
+onAuthStateChanged(auth,(user)=>{
+
+if(!user){
+
+window.location.href="login.html";
+
+return;
+
+}
+
+partnerName.innerHTML=user.displayName || "Partner";
+
+partnerEmail.innerHTML=user.email || user.phoneNumber;
+
+if(user.photoURL){
+
+partnerPhoto.src=user.photoURL;
+
+}
+
+});
+
+logoutBtn.onclick=async()=>{
+
+await signOut(auth);
+
+window.location.href="login.html";
+
+}
+
+</script>
+
+</body>
+</html>
