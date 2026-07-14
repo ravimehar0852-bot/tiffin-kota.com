@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Partner Dashboard — TiffinKota</title>
+<link rel="stylesheet" href="css/style.css">
+<style>
+  .dash-shell{display:grid; grid-template-columns:250px 1fr; min-height:100vh;}
+  .sidebar{
+    background:var(--maroon-deep); color:#fff; padding:26px 20px; position:sticky; top:0; height:100vh;
+  }
+  .side-brand{display:flex; align-items:center; gap:10px; font-family:'Fraunces'; font-weight:700; font-size:19px; margin-bottom:40px;}
+  .side-brand span{width:32px; height:32px; border-radius:9px; background:linear-gradient(135deg,var(--terracotta),var(--gold)); display:flex; align-items:center; justify-content:center; font-size:14px;}
+  .side-link{
+    display:flex; align-items:center; gap:12px; padding:12px 14px; border-radius:12px; color:#D8BFA9; font-size:14px; font-weight:500; margin-bottom:4px; transition:all .2s;
+  }
+  .side-link.active, .side-link:hover{background:rgba(255,255,255,0.08); color:#fff;}
+  .main{padding:30px 34px 60px;}
+
+  .shop-bar{display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap;}
+  .shop-title{font-family:'Fraunces'; font-size:24px; font-weight:600;}
+  .shop-sub{font-size:12.5px; color:var(--ink-soft); margin-top:2px;}
+  .toggle{width:48px; height:26px; border-radius:99px; background:var(--terracotta); position:relative; cursor:pointer; flex:none;}
+  .toggle::after{content:''; position:absolute; top:3px; right:3px; width:20px; height:20px; border-radius:50%; background:#fff; transition:.25s;}
+  .toggle.off{background:var(--line);}
+  .toggle.off::after{right:auto; left:3px;}
+
+  .stat-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:20px; margin-top:26px;}
+  .stat-card{padding:22px; position:relative;}
+  .stat-card.accent{border-color:var(--terracotta); border-width:1.5px;}
+  .stat-top{display:flex; justify-content:space-between; align-items:center; font-size:12.5px; color:var(--ink-soft); font-weight:600;}
+  .stat-up{color:var(--sage); background:var(--sage-bg); padding:2px 8px; border-radius:6px; font-size:11.5px;}
+  .stat-val{font-family:'JetBrains Mono'; font-size:34px; font-weight:700; margin-top:10px; color:var(--ink);}
+  .stat-link{position:absolute; top:20px; right:20px; font-size:12px; color:var(--terracotta-dark); font-weight:600;}
+
+  .ops-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-top:16px;}
+  .ops-card{padding:20px 12px; text-align:center;}
+  .ops-icon{width:44px; height:44px; border-radius:12px; background:var(--cream-dim); display:flex; align-items:center; justify-content:center; font-size:19px; margin:0 auto 10px;}
+  .ops-card p{font-size:12.5px; font-weight:700; letter-spacing:.02em;}
+  .ops-card:hover{border-color:var(--terracotta);}
+
+  .approval-card{padding:18px; display:flex; gap:14px; align-items:flex-start; margin-bottom:14px;}
+  .approval-thumb{width:56px; height:56px; border-radius:12px; background:linear-gradient(135deg,var(--terracotta),var(--gold)); flex:none;}
+  .approval-tag{font-size:10.5px; font-weight:700; padding:3px 8px; border-radius:6px; background:var(--gold-light); color:#5A3E0E; text-transform:uppercase;}
+  .approval-actions{display:flex; gap:10px; margin-top:12px;}
+
+  .chart-card{padding:24px; margin-top:24px;}
+  .top-dish{
+    background:linear-gradient(135deg, var(--maroon), var(--maroon-deep)); color:#fff; border-radius:18px; padding:24px; margin-top:24px;
+  }
+  .rewards-card{
+    border:1.5px dashed var(--gold); border-radius:18px; padding:24px; text-align:center; margin-top:20px;
+  }
+  .two-col{display:grid; grid-template-columns:1.5fr 1fr; gap:24px; align-items:start;}
+
+  .side-toggle-btn{display:none;}
+  @media (max-width:980px){
+    .dash-shell{grid-template-columns:1fr;}
+    .sidebar{display:none;}
+    .ops-grid{grid-template-columns:repeat(2,1fr);}
+    .two-col{grid-template-columns:1fr;}
+  }
+  @media (max-width:640px){
+    .stat-grid{grid-template-columns:1fr;}
+    .main{padding:20px 18px 90px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="dash-shell">
+  <aside class="sidebar">
+    <div class="side-brand"><span>TK</span>TiffinKota</div>
+    <a href="dashboard.html" class="side-link active">📊 Dashboard</a>
+    <a href="#" class="side-link">🧾 Orders</a>
+    <a href="#" class="side-link">🍲 Shop &amp; Menu</a>
+    <a href="#" class="side-link">💰 Earnings</a>
+    <a href="#" class="side-link">📣 Broadcast</a>
+    <a href="#" class="side-link">⚙️ Settings</a>
+    <a href="index.html" class="side-link mt-32" style="border-top:1px solid rgba(255,255,255,0.12); padding-top:20px; margin-top:24px;">← Exit to Website</a>
+  </aside>
+
+  <main class="main">
+    <div class="shop-bar">
+      <div>
+        <p class="eyebrow">📍 Downtown Outlet</p>
+        <div class="shop-title">Mama's Spice Kitchen</div>
+      </div>
+      <div class="flex gap-16" style="align-items:center;">
+        <span style="font-size:13px; color:var(--ink-soft); font-weight:600;" id="toggleLabel">Shop Open</span>
+        <div class="toggle" id="shopToggle" onclick="toggleShop()"></div>
+      </div>
+    </div>
+
+    <div class="stat-grid">
+      <div class="card stat-card">
+        <div class="stat-top">👥 Active Subs <span class="stat-up">+12%</span></div>
+        <div class="stat-val">148</div>
+      </div>
+      <div class="card stat-card accent">
+        <div class="stat-top">🛵 Today's Deliveries <span style="width:8px;height:8px;border-radius:50%;background:var(--terracotta);"></span></div>
+        <div class="stat-val">82</div>
+      </div>
+      <div class="card stat-card">
+        <div class="stat-top">💳 Total Earnings</div>
+        <a href="#" class="stat-link">View Analytics</a>
+        <div class="stat-val">₹42.5k</div>
+      </div>
+    </div>
+
+    <h3 class="mt-32" style="font-size:18px;">⚡ Quick Operations</h3>
+    <div class="ops-grid">
+      <div class="card ops-card" onclick="showToast('Opening menu editor…')"><div class="ops-icon">🍽️</div><p>UPDATE MENU</p></div>
+      <div class="card ops-card" onclick="showToast('Broadcast composer opened')"><div class="ops-icon">📣</div><p>BROADCAST</p></div>
+      <div class="card ops-card" onclick="showToast('Loading order history…')"><div class="ops-icon">🕐</div><p>HISTORY</p></div>
+      <div class="card ops-card" onclick="showToast('Opening shop settings…')"><div class="ops-icon">⚙️</div><p>SHOP SETTINGS</p></div>
+    </div>
+
+    <div class="two-col mt-32">
+      <div>
+        <div class="flex" style="justify-content:space-between; align-items:center;">
+          <h3 style="font-size:18px;">Pending Approvals</h3>
+          <a href="#" style="font-size:13px; color:var(--terracotta-dark); font-weight:600;">SEE ALL</a>
+        </div>
+        <p style="font-size:13px; color:var(--ink-soft); margin:6px 0 16px;">You have <b>4</b> orders waiting for response</p>
+
+        <div class="card approval-card" id="order-8892">
+          <div class="approval-thumb"></div>
+          <div style="flex:1;">
+            <div class="flex" style="justify-content:space-between; align-items:center;">
+              <b style="font-size:14.5px;">#TK-8892</b>
+              <span class="approval-tag">Premium Plan</span>
+            </div>
+            <p style="font-size:13.5px; margin-top:4px;">Rahul Sharma · 3 items · ₹450</p>
+            <p style="font-size:12.5px; color:var(--terracotta-dark); font-weight:600;">Requested delivery: 1:30 PM</p>
+            <div class="approval-actions">
+              <button class="btn btn-ghost btn-sm" onclick="resolveOrder('order-8892','Rejected')">Reject</button>
+              <button class="btn btn-primary btn-sm" onclick="resolveOrder('order-8892','Accepted')">Accept Order</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="card approval-card" id="order-8895">
+          <div class="approval-thumb" style="background:linear-gradient(135deg,var(--sage),#2A1B12);"></div>
+          <div style="flex:1;">
+            <div class="flex" style="justify-content:space-between; align-items:center;">
+              <b style="font-size:14.5px;">#TK-8895</b>
+              <span class="approval-tag" style="background:var(--sage-bg); color:var(--sage);">One-time Order</span>
+            </div>
+            <p style="font-size:13.5px; margin-top:4px;">Priya Verma · 1 item · ₹180</p>
+            <p style="font-size:12.5px; color:var(--terracotta-dark); font-weight:600;">Requested delivery: ASAP</p>
+            <div class="approval-actions">
+              <button class="btn btn-ghost btn-sm" onclick="resolveOrder('order-8895','Rejected')">Reject</button>
+              <button class="btn btn-primary btn-sm" onclick="resolveOrder('order-8895','Accepted')">Accept Order</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="top-dish">
+          <p class="eyebrow" style="color:var(--gold-light);">Top Performing Dish</p>
+          <h3 style="color:#fff; font-size:22px; margin-top:6px;">Butter Chicken Tiffin</h3>
+          <p style="color:#E7D5C4; font-size:13.5px; margin-top:6px;">Ordered by 42 people today</p>
+          <p style="color:var(--gold-light); font-size:13px; font-weight:700; margin-top:10px;">↗ 24% increase</p>
+        </div>
+      </div>
+
+      <div>
+        <div class="card chart-card">
+          <div class="flex" style="justify-content:space-between; align-items:center; margin-bottom:6px;">
+            <h3 style="font-size:16.5px;">Weekly Revenue</h3>
+            <span class="chip" style="font-size:12px;">Last 7 Days ▾</span>
+          </div>
+          <canvas id="revenueChart"></canvas>
+        </div>
+
+        <div class="rewards-card">
+          <div style="font-size:26px;">⭐</div>
+          <h3 style="font-size:16px; margin-top:8px;">Rewards Program</h3>
+          <p style="font-size:13px; color:var(--ink-soft); margin-top:6px;">Engage more customers with discounts</p>
+          <button class="btn btn-outline btn-sm mt-16" onclick="showToast('Opening rewards setup…')">Setup Now</button>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<div class="bottom-nav" style="display:none;">
+  <div class="container bottom-nav-inner">
+    <a href="dashboard.html" class="bn-item active"><span>📊</span>Dashboard</a>
+    <a href="#" class="bn-item"><span>🧾</span>Orders</a>
+    <a href="#" class="bn-item"><span>🍲</span>Shop</a>
+    <a href="#" class="bn-item"><span>💰</span>Earnings</a>
+  </div>
+</div>
+
+<script src="js/script.js"></script>
+<script>
+  drawRevenueChart('revenueChart', [4100,3800,4600,9200,5200,6100,5400], ['MON','TUE','WED','THU','FRI','SAT','SUN'], 3);
+
+  function toggleShop(){
+    const t = document.getElementById('shopToggle');
+    const label = document.getElementById('toggleLabel');
+    t.classList.toggle('off');
+    const open = !t.classList.contains('off');
+    label.textContent = open ? 'Shop Open' : 'Shop Closed';
+    showToast(open ? 'Your shop is now visible to customers' : 'Your shop is now hidden from customers');
+  }
+
+  function resolveOrder(id, action){
+    const el = document.getElementById(id);
+    el.style.transition = 'all .35s ease';
+    el.style.opacity = '0';
+    el.style.transform = 'translateX(30px)';
+    setTimeout(() => el.remove(), 350);
+    showToast(`Order ${action.toLowerCase()}`);
+  }
+
+  // show bottom nav on mobile only
+  function handleResize(){
+    document.querySelector('.bottom-nav').style.display = window.innerWidth <= 980 ? 'block' : 'none';
+  }
+  window.addEventListener('resize', handleResize);
+  handleResize();
+</script>
+</body>
+</html>

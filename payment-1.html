@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Payment — TiffinKota</title>
+<link rel="stylesheet" href="css/style.css">
+<style>
+  .page-wrap{max-width:560px; margin:0 auto; padding:24px 24px 140px;}
+  .pay-head{display:flex; align-items:center; justify-content:space-between; margin-bottom:20px;}
+  .pay-head .left{display:flex; align-items:center; gap:14px;}
+  .secure-tag{display:flex; align-items:center; gap:6px; font-size:12.5px; font-weight:700; color:var(--sage);}
+  .order-summary{
+    border-left:4px solid var(--terracotta); padding:16px 18px; display:flex; justify-content:space-between; align-items:center;
+  }
+  .pay-group{margin-top:22px;}
+  .pay-group-title{font-size:12px; text-transform:uppercase; letter-spacing:.08em; color:var(--ink-soft); font-weight:700; margin-bottom:10px;}
+  .pay-option{
+    display:flex; align-items:center; gap:14px; padding:16px 18px; border-bottom:1px solid var(--line); cursor:pointer;
+  }
+  .pay-option:last-child{border-bottom:none;}
+  .pay-icon{width:34px; height:34px; border-radius:8px; background:var(--ink); display:flex; align-items:center; justify-content:center; color:#fff; font-size:14px; flex:none;}
+  .radio{width:20px; height:20px; border-radius:50%; border:2px solid var(--line); margin-left:auto; flex:none; position:relative;}
+  .radio.selected{border-color:var(--maroon);}
+  .radio.selected::after{content:''; position:absolute; inset:3px; background:var(--maroon); border-radius:50%;}
+  .upi-input-row{display:flex; gap:10px; padding:14px 18px;}
+  .upi-input-row input{flex:1; border:1.5px solid var(--line); border-radius:10px; padding:12px 14px; font-size:14px;}
+  .trust-row{display:flex; justify-content:center; gap:26px; margin-top:28px; font-size:11px; color:var(--ink-soft); text-align:center;}
+  .sticky-cta{
+    position:fixed; bottom:0; left:0; right:0; background:var(--paper); border-top:1px solid var(--line);
+    padding:16px 24px max(16px, env(safe-area-inset-bottom)); z-index:120;
+  }
+  .sticky-inner{max-width:560px; margin:0 auto;}
+
+  .modal-overlay{
+    position:fixed; inset:0; background:rgba(42,27,18,0.55); backdrop-filter:blur(4px);
+    display:none; align-items:center; justify-content:center; z-index:500; padding:20px;
+  }
+  .modal-overlay.show{display:flex;}
+  .modal-card{
+    background:var(--paper); border-radius:24px; padding:40px 30px; text-align:center; max-width:360px; width:100%;
+    animation:pop .4s var(--ease);
+  }
+  @keyframes pop{from{transform:scale(.85); opacity:0;} to{transform:scale(1); opacity:1;}}
+  .check-anim{
+    width:74px; height:74px; border-radius:50%; background:var(--sage-bg); color:var(--sage);
+    display:flex; align-items:center; justify-content:center; font-size:36px; margin:0 auto 20px;
+  }
+</style>
+</head>
+<body>
+
+<div class="page-wrap">
+  <div class="pay-head">
+    <div class="left">
+      <a href="checkout.html" class="back-btn" style="width:36px;height:36px;border-radius:50%;background:var(--cream-dim);display:flex;align-items:center;justify-content:center;">←</a>
+      <h1 style="font-size:20px;">Payment</h1>
+    </div>
+    <span class="secure-tag">🛡️ SECURE</span>
+  </div>
+
+  <div class="steps-row">
+    <div class="step-dot active"><span>1</span><p>Select Plan</p></div>
+    <div class="step-dot active"><span>2</span><p>Checkout</p></div>
+    <div class="step-dot active"><span>3</span><p>Payment</p></div>
+  </div>
+
+  <div class="card order-summary">
+    <div>
+      <p style="font-size:12px; text-transform:uppercase; letter-spacing:.06em; color:var(--ink-soft); font-weight:700;">Order Summary</p>
+      <p style="font-size:14.5px; margin-top:4px;">Tiffin Delivery · 3 Items</p>
+      <a href="checkout.html" style="font-size:12.5px; color:var(--terracotta-dark); font-weight:600;">View Details</a>
+    </div>
+    <div style="font-family:'JetBrains Mono'; font-size:19px; font-weight:700; color:var(--maroon);">₹1800</div>
+  </div>
+
+  <div class="pay-group">
+    <p class="pay-group-title">UPI Payments</p>
+    <div class="card">
+      <div class="pay-option" onclick="selectPay(this,'gpay')">
+        <div class="pay-icon">G</div><span style="font-weight:500;">Google Pay</span>
+        <div class="radio" id="r-gpay"></div>
+      </div>
+      <div class="pay-option" onclick="selectPay(this,'phonepe')">
+        <div class="pay-icon" style="background:#5F259F;">P</div><span style="font-weight:500;">PhonePe</span>
+        <div class="radio" id="r-phonepe"></div>
+      </div>
+      <div class="upi-input-row">
+        <input type="text" placeholder="Enter UPI ID (e.g. user@bank)" id="upiIdInput">
+        <button class="btn btn-ghost btn-sm" onclick="verifyUpi()">Verify</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="pay-group">
+    <p class="pay-group-title">Credit &amp; Debit Cards</p>
+    <div class="card">
+      <div class="pay-option" onclick="selectPay(this,'hdfc')">
+        <div class="pay-icon">💳</div>
+        <div><span style="font-weight:500;">HDFC Bank Card</span><p style="font-size:12px; color:var(--ink-soft);">Ends in 4242</p></div>
+        <div class="radio selected" id="r-hdfc"></div>
+      </div>
+      <div class="pay-option" onclick="showToast('Add card form opened')">
+        <div class="pay-icon" style="background:var(--cream-dim); color:var(--ink-soft); border:1.5px dashed var(--line);">+</div>
+        <span style="font-weight:500; color:var(--terracotta-dark);">Add New Card</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="pay-group">
+    <p class="pay-group-title">Other Options</p>
+    <div class="card">
+      <div class="pay-option" onclick="showToast('Opening Net Banking…')">
+        <div class="pay-icon">🏦</div><span style="font-weight:500;">Net Banking</span>
+        <span style="margin-left:auto; color:var(--ink-soft);">›</span>
+      </div>
+      <div class="pay-option" onclick="selectPay(this,'cod')">
+        <div class="pay-icon">💵</div><span style="font-weight:500;">Cash on Delivery</span>
+        <div class="radio" id="r-cod"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="trust-row">
+    <span>🔒<br>Secure SSL</span>
+    <span>🏷️<br>Trusted Payments</span>
+    <span>📋<br>PCI Compliant</span>
+  </div>
+</div>
+
+<div class="sticky-cta">
+  <div class="sticky-inner">
+    <button class="btn btn-dark btn-block" onclick="payNow()">🔒 Pay ₹1800</button>
+  </div>
+</div>
+
+<div class="modal-overlay" id="successModal">
+  <div class="modal-card">
+    <div class="check-anim">✓</div>
+    <h2 style="font-size:22px;">Payment Successful!</h2>
+    <p style="color:var(--ink-soft); font-size:14.5px; margin-top:10px; line-height:1.6;">Your Deluxe Veg Plan is confirmed. Mom's Kitchen will deliver your first tiffin tomorrow between 1:00–2:00 PM.</p>
+    <a href="kitchens.html" class="btn btn-primary btn-block mt-24">Back to Home</a>
+    <a href="#" class="btn btn-wa btn-block mt-16" data-wa="Hi TiffinKota, I just placed order for Mom's Kitchen Deluxe Veg Plan — please confirm my first delivery.">Confirm via WhatsApp</a>
+  </div>
+</div>
+
+<script src="js/script.js"></script>
+<script>
+  let selected = 'hdfc';
+  function selectPay(el, key){
+    document.querySelectorAll('.radio').forEach(r => r.classList.remove('selected'));
+    document.getElementById('r-'+key).classList.add('selected');
+    selected = key;
+  }
+  function verifyUpi(){
+    const val = document.getElementById('upiIdInput').value.trim();
+    if(!val.includes('@')){ showToast('Enter a valid UPI ID'); return; }
+    showToast('UPI ID verified ✓');
+  }
+  function payNow(){
+    document.getElementById('successModal').classList.add('show');
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Checkout — TiffinKota</title>
+<link rel="stylesheet" href="css/style.css">
+<style>
+  .page-wrap{max-width:920px; margin:0 auto; padding:32px 24px 140px;}
+  .page-head{display:flex; align-items:center; gap:16px; margin-bottom:8px;}
+  .back-btn{width:38px; height:38px; border-radius:50%; background:var(--cream-dim); display:flex; align-items:center; justify-content:center; font-size:16px;}
+  .layout{display:grid; grid-template-columns:1.5fr 1fr; gap:28px; margin-top:26px; align-items:start;}
+  .plan-card{overflow:hidden;}
+  .plan-media{height:180px; background:linear-gradient(135deg,#3C7A4E,#B8862E);}
+  .plan-body{padding:22px;}
+  .addr-option{
+    display:flex; gap:14px; padding:16px; border:1.5px solid var(--line); border-radius:14px; margin-bottom:12px; cursor:pointer; transition:all .2s;
+  }
+  .addr-option.selected{border-color:var(--maroon); background:#FBF1E8;}
+  .addr-icon{width:40px; height:40px; border-radius:10px; background:var(--cream-dim); display:flex; align-items:center; justify-content:center; font-size:18px; flex:none;}
+  .check-circle{margin-left:auto; width:20px; height:20px; border-radius:50%; border:2px solid var(--line); flex:none;}
+  .addr-option.selected .check-circle{border-color:var(--maroon); background:var(--maroon); position:relative;}
+  .addr-option.selected .check-circle::after{content:'✓'; color:#fff; font-size:12px; position:absolute; inset:0; display:flex; align-items:center; justify-content:center;}
+  .slot-row{display:flex; gap:12px;}
+  .slot-btn{flex:1; text-align:center; padding:18px 10px; border-radius:14px; border:1.5px solid var(--line); font-weight:600; font-size:13.5px; cursor:pointer; transition:all .2s;}
+  .slot-btn.selected{background:var(--maroon); color:#fff; border-color:var(--maroon);}
+  .bill-row{display:flex; justify-content:space-between; font-size:14.5px; margin-bottom:12px; color:var(--ink-soft);}
+  .bill-row b{color:var(--ink); font-weight:600;}
+  .bill-total{display:flex; justify-content:space-between; font-size:19px; font-weight:700; padding-top:14px; border-top:1px dashed var(--line); margin-top:6px;}
+  .sticky-cta{
+    position:fixed; bottom:0; left:0; right:0; background:var(--paper); border-top:1px solid var(--line);
+    padding:16px 24px max(16px, env(safe-area-inset-bottom)); z-index:120;
+  }
+  .sticky-inner{max-width:920px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; gap:20px;}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="container nav-inner">
+    <a href="index.html" class="brand"><span class="brand-mark">TK</span>TiffinKota</a>
+    <div class="nav-links"><a href="kitchens.html">Browse Kitchens</a></div>
+    <div class="nav-cta"><a href="login.html" class="btn btn-outline btn-sm">Login</a></div>
+  </div>
+</nav>
+
+<div class="page-wrap">
+  <div class="page-head">
+    <a href="kitchens.html" class="back-btn">←</a>
+    <h1 style="font-size:26px;">Checkout</h1>
+  </div>
+
+  <div class="steps-row mt-24">
+    <div class="step-dot active"><span>1</span><p>Select Plan</p></div>
+    <div class="step-dot active"><span>2</span><p>Checkout</p></div>
+    <div class="step-dot"><span>3</span><p>Payment</p></div>
+  </div>
+
+  <div class="layout">
+    <div>
+      <div class="card plan-card">
+        <div class="plan-media"></div>
+        <div class="plan-body">
+          <p class="eyebrow">Premium Subscription</p>
+          <h2 style="font-size:22px; margin-top:6px;">Mom's Kitchen — Deluxe Veg Plan</h2>
+          <p style="color:var(--ink-soft); font-size:13.5px; margin-top:6px;">30-Day Cycle · Lunch &amp; Dinner · High Protein</p>
+          <div class="flex" style="align-items:baseline; gap:8px; margin-top:14px;">
+            <span style="font-family:'JetBrains Mono'; font-size:22px; font-weight:700; color:var(--maroon);">₹1,800</span>
+            <span style="color:var(--ink-soft); font-size:13px;">/month</span>
+            <span class="chip" style="margin-left:auto;">Billed Monthly</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card mt-24" style="padding:22px;">
+        <div class="flex" style="justify-content:space-between; align-items:center; margin-bottom:16px;">
+          <h3 style="font-size:18px;">Delivery Address</h3>
+          <a href="#" style="color:var(--terracotta-dark); font-size:13.5px; font-weight:600;" onclick="showToast('Address form opened')">+ Add New Address</a>
+        </div>
+        <div class="addr-option selected" onclick="selectAddr(this)">
+          <div class="addr-icon">🏠</div>
+          <div>
+            <p style="font-weight:600; font-size:14.5px;">Home</p>
+            <p style="font-size:13px; color:var(--ink-soft); margin-top:2px;">402, Sunshine Residency, Silver Oak Street, South Mumbai, 400001</p>
+          </div>
+          <div class="check-circle"></div>
+        </div>
+        <div class="addr-option" onclick="selectAddr(this)">
+          <div class="addr-icon">💼</div>
+          <div>
+            <p style="font-weight:600; font-size:14.5px;">Office</p>
+            <p style="font-size:13px; color:var(--ink-soft); margin-top:2px;">HDFC Bank House, Senapati Bapat Marg, Lower Parel</p>
+          </div>
+          <div class="check-circle"></div>
+        </div>
+      </div>
+
+      <div class="card mt-24" style="padding:22px;">
+        <h3 style="font-size:18px; margin-bottom:16px;">Preferred Slot</h3>
+        <div class="slot-row">
+          <div class="slot-btn selected" onclick="selectSlot(this)">LUNCH<br>1:00 - 2:00 PM</div>
+          <div class="slot-btn" onclick="selectSlot(this)">LUNCH<br>12:00 - 1:00 PM</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="padding:22px; position:sticky; top:90px;">
+      <h3 style="font-size:18px; margin-bottom:16px;">Bill Detail</h3>
+      <div class="bill-row"><span>Subtotal (Deluxe Veg Plan)</span><b>₹1800.00</b></div>
+      <div class="bill-row"><span>Delivery Fee</span><b><s style="color:var(--ink-soft); font-weight:400;">₹250.00</s> <span style="color:var(--sage);">FREE</span></b></div>
+      <div style="background:var(--sage-bg); color:var(--sage); font-size:12.5px; font-weight:600; padding:10px 14px; border-radius:10px; margin:14px 0;">
+        🎁 First month special discount applied
+      </div>
+      <div class="bill-total"><span>To Pay</span><span style="color:var(--maroon);">₹1800.00</span></div>
+      <div class="flex gap-16 mt-24" style="justify-content:center; font-size:11px; color:var(--ink-soft); flex-wrap:wrap;">
+        <span>🛡️ Secure</span><span>🌿 Eco-Box</span><span>😊 Trusted</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="sticky-cta">
+  <div class="sticky-inner">
+    <a href="payment.html" class="btn btn-dark btn-block" style="justify-content:space-between; padding-right:22px;">
+      <span>Proceed to Payment</span><span>₹1800 →</span>
+    </a>
+  </div>
+</div>
+
+<script src="js/script.js"></script>
+<script>
+  function selectAddr(el){
+    document.querySelectorAll('.addr-option').forEach(a => a.classList.remove('selected'));
+    el.classList.add('selected');
+  }
+  function selectSlot(el){
+    document.querySelectorAll('.slot-btn').forEach(s => s.classList.remove('selected'));
+    el.classList.add('selected');
+  }
+</script>
+</body>
+</html>

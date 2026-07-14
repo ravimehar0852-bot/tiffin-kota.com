@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Edit Shop — TiffinKota</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+  /* ===== Edit Shop — scoped styles (brown / orange, complements style.css) ===== */
+  :root{
+    --tk-cream:#FFF8F0;
+    --tk-cream-dim:#FBF1E6;
+    --tk-brown-900:#2E1D16;
+    --tk-brown-800:#3E2723;
+    --tk-brown-600:#6D4C41;
+    --tk-brown-300:#B08968;
+    --tk-line:#E7D5C4;
+    --tk-orange:#E8703A;
+    --tk-orange-dark:#C8551F;
+    --tk-orange-soft:#FCE4D6;
+    --tk-gold:#C9932F;
+    --tk-danger:#C0392B;
+    --tk-shadow: 0 20px 45px -20px rgba(62,39,35,0.35);
+    --tk-radius: 18px;
+  }
+
+  .es-page{
+    background:
+      radial-gradient(1100px 480px at 12% -10%, rgba(232,112,58,0.10), transparent 60%),
+      radial-gradient(900px 420px at 100% 0%, rgba(201,147,47,0.10), transparent 55%),
+      var(--tk-cream);
+    min-height:100vh;
+    font-family:'Manrope', sans-serif;
+    color:var(--tk-brown-800);
+    padding: 40px 20px 90px;
+  }
+
+  .es-wrap{
+    max-width: 880px;
+    margin: 0 auto;
+  }
+
+  /* Header */
+  .es-header{
+    display:flex;
+    align-items:center;
+    gap:16px;
+    margin-bottom: 36px;
+  }
+  .es-steam{
+    position:relative;
+    width:52px;height:52px;
+    flex-shrink:0;
+    border-radius: 14px;
+    background: linear-gradient(155deg, var(--tk-orange), var(--tk-orange-dark));
+    box-shadow: var(--tk-shadow);
+    overflow:hidden;
+  }
+  .es-steam::before, .es-steam::after{
+    content:"";
+    position:absolute;
+    bottom:-10px;
+    width:8px; height:26px;
+    background: rgba(255,255,255,0.55);
+    border-radius: 10px;
+    filter: blur(2px);
+    animation: es-rise 2.6s ease-in-out infinite;
+  }
+  .es-steam::before{ left:16px; animation-delay:0s; }
+  .es-steam::after{ left:28px; animation-delay:0.9s; }
+  @keyframes es-rise{
+    0%{ transform: translateY(0) scaleY(0.6); opacity:0; }
+    30%{ opacity:0.9; }
+    100%{ transform: translateY(-38px) scaleY(1.1); opacity:0; }
+  }
+  @media (prefers-reduced-motion: reduce){
+    .es-steam::before, .es-steam::after{ animation: none; opacity: 0.4; }
+  }
+
+  .es-eyebrow{
+    font-size: 12.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--tk-orange-dark);
+    font-weight: 700;
+    margin: 0 0 4px;
+  }
+  .es-title{
+    font-family:'Fraunces', serif;
+    font-weight: 600;
+    font-size: clamp(26px, 4vw, 34px);
+    margin: 0;
+    color: var(--tk-brown-900);
+  }
+
+  /* Card */
+  .es-card{
+    background: #fff;
+    border: 1px solid var(--tk-line);
+    border-radius: var(--tk-radius);
+    box-shadow: var(--tk-shadow);
+    overflow: hidden;
+  }
+
+  .es-section{
+    padding: 30px 32px;
+    border-bottom: 1px solid var(--tk-line);
+  }
+  .es-section:last-child{ border-bottom:none; }
+
+  .es-section-title{
+    font-family:'Fraunces', serif;
+    font-size: 19px;
+    font-weight: 600;
+    color: var(--tk-brown-900);
+    margin: 0 0 4px;
+  }
+  .es-section-sub{
+    font-size: 13.5px;
+    color: var(--tk-brown-600);
+    margin: 0 0 22px;
+  }
+
+  /* Image uploads */
+  .es-image-grid{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 22px;
+  }
+  @media (max-width: 620px){
+    .es-image-grid{ grid-template-columns: 1fr; }
+  }
+
+  .es-upload{
+    position:relative;
+    border: 1.5px dashed var(--tk-brown-300);
+    border-radius: 14px;
+    background: var(--tk-cream-dim);
+    text-align:center;
+    cursor:pointer;
+    transition: border-color .2s ease, background .2s ease;
+    overflow:hidden;
+  }
+  .es-upload:hover{ border-color: var(--tk-orange); background: var(--tk-orange-soft); }
+  .es-upload input[type="file"]{
+    position:absolute; inset:0; opacity:0; cursor:pointer;
+  }
+  .es-upload-logo{ aspect-ratio: 1 / 1; max-height: 220px; }
+  .es-upload-cover{ aspect-ratio: 16 / 9; }
+
+  .es-upload-preview{
+    width:100%; height:100%;
+    object-fit: cover;
+    display:none;
+  }
+  .es-upload-placeholder{
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    height:100%; padding: 18px; gap:8px;
+  }
+  .es-upload-icon{
+    width:38px; height:38px;
+    border-radius: 10px;
+    background: linear-gradient(155deg, var(--tk-orange), var(--tk-gold));
+    display:flex; align-items:center; justify-content:center;
+    color:#fff; font-size:18px; font-weight:700;
+  }
+  .es-upload-label{
+    font-weight:700; font-size: 14px; color: var(--tk-brown-800);
+  }
+  .es-upload-hint{ font-size: 12px; color: var(--tk-brown-600); }
+
+  /* Form fields */
+  .es-fields{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  @media (max-width: 620px){
+    .es-fields{ grid-template-columns: 1fr; }
+  }
+  .es-field{ display:flex; flex-direction:column; gap:7px; }
+  .es-field.es-full{ grid-column: 1 / -1; }
+
+  .es-label{
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--tk-brown-800);
+  }
+  .es-input, .es-textarea{
+    font-family: 'Manrope', sans-serif;
+    font-size: 14.5px;
+    padding: 12px 14px;
+    border: 1.5px solid var(--tk-line);
+    border-radius: 10px;
+    background: var(--tk-cream-dim);
+    color: var(--tk-brown-900);
+    outline: none;
+    transition: border-color .18s ease, box-shadow .18s ease, background .18s ease;
+  }
+  .es-textarea{ resize: vertical; min-height: 84px; font-family:'Manrope', sans-serif; }
+  .es-input:focus, .es-textarea:focus{
+    border-color: var(--tk-orange);
+    background: #fff;
+    box-shadow: 0 0 0 4px rgba(232,112,58,0.15);
+  }
+  .es-input:disabled, .es-textarea:disabled{ opacity:0.6; }
+
+  /* Footer / actions */
+  .es-actions{
+    padding: 24px 32px 32px;
+    display:flex;
+    align-items:center;
+    justify-content: flex-end;
+    gap: 14px;
+    background: var(--tk-cream-dim);
+  }
+
+  .es-btn{
+    font-family:'Manrope', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    padding: 13px 28px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    display:inline-flex;
+    align-items:center;
+    gap: 10px;
+    transition: transform .15s ease, box-shadow .15s ease, opacity .15s ease;
+  }
+  .es-btn-primary{
+    background: linear-gradient(155deg, var(--tk-orange), var(--tk-orange-dark));
+    color: #fff;
+    box-shadow: 0 12px 26px -10px rgba(200,85,31,0.55);
+  }
+  .es-btn-primary:hover:not(:disabled){ transform: translateY(-1px); }
+  .es-btn-primary:disabled{ opacity:0.7; cursor:not-allowed; transform:none; }
+
+  .es-btn-ghost{
+    background: transparent;
+    color: var(--tk-brown-600);
+    border: 1.5px solid var(--tk-line);
+  }
+  .es-btn-ghost:hover{ border-color: var(--tk-brown-300); color: var(--tk-brown-800); }
+
+  .es-spinner{
+    width: 16px; height: 16px;
+    border-radius: 50%;
+    border: 2.5px solid rgba(255,255,255,0.45);
+    border-top-color: #fff;
+    animation: es-spin 0.7s linear infinite;
+    display:none;
+  }
+  @keyframes es-spin{ to{ transform: rotate(360deg); } }
+
+  /* Loading overlay for initial fetch */
+  .es-loading-overlay{
+    position: fixed; inset:0;
+    background: var(--tk-cream);
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    gap: 14px;
+    z-index: 50;
+  }
+  .es-loading-ring{
+    width: 42px; height:42px;
+    border-radius: 50%;
+    border: 3.5px solid var(--tk-orange-soft);
+    border-top-color: var(--tk-orange);
+    animation: es-spin 0.8s linear infinite;
+  }
+  .es-loading-text{
+    font-family:'Fraunces', serif;
+    font-size: 15px;
+    color: var(--tk-brown-600);
+  }
+
+  .es-hidden{ display:none !important; }
+
+  .es-toast{
+    position: fixed;
+    top: 24px; left: 50%;
+    transform: translateX(-50%) translateY(-16px);
+    background: var(--tk-brown-900);
+    color: #fff;
+    padding: 14px 22px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    box-shadow: var(--tk-shadow);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .25s ease, transform .25s ease;
+    z-index: 60;
+    display:flex; align-items:center; gap:10px;
+  }
+  .es-toast.es-show{
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+  .es-toast-dot{
+    width:8px; height:8px; border-radius:50%;
+    background: var(--tk-orange);
+    flex-shrink:0;
+  }
+</style>
+</head>
+<body>
+
+<div id="esLoadingOverlay" class="es-loading-overlay">
+  <div class="es-loading-ring" aria-hidden="true"></div>
+  <p class="es-loading-text">Loading your shop details…</p>
+</div>
+
+<div id="esToast" class="es-toast" role="status" aria-live="polite">
+  <span class="es-toast-dot" aria-hidden="true"></span>
+  <span id="esToastText"></span>
+</div>
+
+<main class="es-page es-hidden" id="esPage">
+  <div class="es-wrap">
+
+    <header class="es-header">
+      <div class="es-steam" aria-hidden="true"></div>
+      <div>
+        <p class="es-eyebrow">TiffinKota · Partner Dashboard</p>
+        <h1 class="es-title">Edit Shop Details</h1>
+      </div>
+    </header>
+
+    <form class="es-card" id="editShopForm" novalidate>
+
+      <section class="es-section">
+        <h2 class="es-section-title">Shop Identity</h2>
+        <p class="es-section-sub">Your logo and cover image are shown to customers browsing kitchens near them.</p>
+
+        <div class="es-image-grid">
+          <label class="es-upload es-upload-logo" for="logoInput">
+            <img id="logoPreview" class="es-upload-preview" alt="Shop logo preview">
+            <div id="logoPlaceholder" class="es-upload-placeholder">
+              <div class="es-upload-icon">▲</div>
+              <span class="es-upload-label">Shop Logo</span>
+              <span class="es-upload-hint">Square image works best</span>
+            </div>
+            <input type="file" id="logoInput" accept="image/*">
+          </label>
+
+          <label class="es-upload es-upload-cover" for="coverInput">
+            <img id="coverPreview" class="es-upload-preview" alt="Cover image preview">
+            <div id="coverPlaceholder" class="es-upload-placeholder">
+              <div class="es-upload-icon">▲</div>
+              <span class="es-upload-label">Cover Image</span>
+              <span class="es-upload-hint">Wide banner, 16:9 recommended</span>
+            </div>
+            <input type="file" id="coverInput" accept="image/*">
+          </label>
+        </div>
+      </section>
+
+      <section class="es-section">
+        <h2 class="es-section-title">Business Details</h2>
+        <p class="es-section-sub">This information appears on your public shop page and order receipts.</p>
+
+        <div class="es-fields">
+          <div class="es-field">
+            <label class="es-label" for="shopNameInput">Shop Name</label>
+            <input class="es-input" type="text" id="shopNameInput" placeholder="e.g. Ma Ki Rasoi Tiffin" required>
+          </div>
+
+          <div class="es-field">
+            <label class="es-label" for="ownerNameInput">Owner Name</label>
+            <input class="es-input" type="text" id="ownerNameInput" placeholder="e.g. Rajesh Sharma" required>
+          </div>
+
+          <div class="es-field">
+            <label class="es-label" for="phoneInput">Phone</label>
+            <input class="es-input" type="tel" id="phoneInput" placeholder="e.g. 98765 43210" required>
+          </div>
+
+          <div class="es-field es-full">
+            <label class="es-label" for="addressInput">Address</label>
+            <textarea class="es-textarea" id="addressInput" placeholder="e.g. 12, Vigyan Nagar, Kota, Rajasthan" required></textarea>
+          </div>
+        </div>
+      </section>
+
+      <div class="es-actions">
+        <button type="button" class="es-btn es-btn-ghost" id="cancelBtn">Cancel</button>
+        <button type="submit" class="es-btn es-btn-primary" id="saveBtn">
+          <span class="es-spinner" id="saveSpinner" aria-hidden="true"></span>
+          <span id="saveBtnText">Save Changes</span>
+        </button>
+      </div>
+
+    </form>
+  </div>
+</main>
+
+<script type="module">
+  import { auth, db, storage } from "./firebase.js";
+  import {
+    onAuthStateChanged
+  } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
+  import {
+    doc,
+    getDoc,
+    updateDoc
+  } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+  import {
+    ref,
+    uploadBytes,
+    getDownloadURL
+  } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-storage.js";
+
+  // ---------- DOM refs ----------
+  const loadingOverlay = document.getElementById("esLoadingOverlay");
+  const page = document.getElementById("esPage");
+
+  const form = document.getElementById("editShopForm");
+  const shopNameInput = document.getElementById("shopNameInput");
+  const ownerNameInput = document.getElementById("ownerNameInput");
+  const phoneInput = document.getElementById("phoneInput");
+  const addressInput = document.getElementById("addressInput");
+
+  const logoInput = document.getElementById("logoInput");
+  const coverInput = document.getElementById("coverInput");
+  const logoPreview = document.getElementById("logoPreview");
+  const coverPreview = document.getElementById("coverPreview");
+  const logoPlaceholder = document.getElementById("logoPlaceholder");
+  const coverPlaceholder = document.getElementById("coverPlaceholder");
+
+  const saveBtn = document.getElementById("saveBtn");
+  const saveBtnText = document.getElementById("saveBtnText");
+  const saveSpinner = document.getElementById("saveSpinner");
+  const cancelBtn = document.getElementById("cancelBtn");
+
+  const toast = document.getElementById("esToast");
+  const toastText = document.getElementById("esToastText");
+
+  // ---------- State ----------
+  let currentUid = null;
+  let existingLogoUrl = "";
+  let existingCoverUrl = "";
+  let selectedLogoFile = null;
+  let selectedCoverFile = null;
+
+  // ---------- Helpers ----------
+  function showToast(message) {
+    toastText.textContent = message;
+    toast.classList.add("es-show");
+    setTimeout(() => toast.classList.remove("es-show"), 3200);
+  }
+
+  function setPreview(imgEl, placeholderEl, url) {
+    if (url) {
+      imgEl.src = url;
+      imgEl.style.display = "block";
+      placeholderEl.style.display = "none";
+    } else {
+      imgEl.style.display = "none";
+      placeholderEl.style.display = "flex";
+    }
+  }
+
+  function handleFirebaseError(error, context) {
+    console.error(`TiffinKota edit-shop error [${context}]:`, error);
+    const code = error && error.code ? error.code : "unknown/error";
+    const message = error && error.message ? error.message : "Something went wrong. Please try again.";
+    alert(`${code}\n${message}`);
+  }
+
+  function setSavingState(isSaving) {
+    saveBtn.disabled = isSaving;
+    saveSpinner.style.display = isSaving ? "inline-block" : "none";
+    saveBtnText.textContent = isSaving ? "Saving..." : "Save Changes";
+  }
+
+  // ---------- Image preview handlers ----------
+  logoInput.addEventListener("change", () => {
+    const file = logoInput.files && logoInput.files[0];
+    if (!file) return;
+    selectedLogoFile = file;
+    const objectUrl = URL.createObjectURL(file);
+    setPreview(logoPreview, logoPlaceholder, objectUrl);
+  });
+
+  coverInput.addEventListener("change", () => {
+    const file = coverInput.files && coverInput.files[0];
+    if (!file) return;
+    selectedCoverFile = file;
+    const objectUrl = URL.createObjectURL(file);
+    setPreview(coverPreview, coverPlaceholder, objectUrl);
+  });
+
+  cancelBtn.addEventListener("click", () => {
+    window.location.href = "dashboard.html";
+  });
+
+  // ---------- Auth check + load existing data ----------
+  onAuthStateChanged(auth, async (user) => {
+    if (!user) {
+      window.location.href = "login.html";
+      return;
+    }
+
+    currentUid = user.uid;
+
+    try {
+      const userDocRef = doc(db, "users", currentUid);
+      const userDocSnap = await getDoc(userDocRef);
+
+      if (userDocSnap.exists()) {
+        const data = userDocSnap.data();
+
+        shopNameInput.value = data.shopName || "";
+        ownerNameInput.value = data.ownerName || "";
+        phoneInput.value = data.phone || "";
+        addressInput.value = data.address || "";
+
+        existingLogoUrl = data.logo || "";
+        existingCoverUrl = data.cover || "";
+
+        setPreview(logoPreview, logoPlaceholder, existingLogoUrl);
+        setPreview(coverPreview, coverPlaceholder, existingCoverUrl);
+      }
+
+      loadingOverlay.classList.add("es-hidden");
+      page.classList.remove("es-hidden");
+    } catch (error) {
+      loadingOverlay.classList.add("es-hidden");
+      page.classList.remove("es-hidden");
+      handleFirebaseError(error, "load-shop-data");
+    }
+  });
+
+  // ---------- Save changes ----------
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    if (!currentUid) {
+      window.location.href = "login.html";
+      return;
+    }
+
+    const shopName = shopNameInput.value.trim();
+    const ownerName = ownerNameInput.value.trim();
+    const phone = phoneInput.value.trim();
+    const address = addressInput.value.trim();
+
+    if (!shopName || !ownerName || !phone || !address) {
+      alert("Please fill in all fields before saving.");
+      return;
+    }
+
+    setSavingState(true);
+
+    try {
+      let logoUrl = existingLogoUrl;
+      let coverUrl = existingCoverUrl;
+
+      if (selectedLogoFile) {
+        const logoRef = ref(storage, `logos/${currentUid}`);
+        await uploadBytes(logoRef, selectedLogoFile);
+        logoUrl = await getDownloadURL(logoRef);
+      }
+
+      if (selectedCoverFile) {
+        const coverRef = ref(storage, `covers/${currentUid}`);
+        await uploadBytes(coverRef, selectedCoverFile);
+        coverUrl = await getDownloadURL(coverRef);
+      }
+
+      const userDocRef = doc(db, "users", currentUid);
+      await updateDoc(userDocRef, {
+        shopName,
+        ownerName,
+        phone,
+        address,
+        logo: logoUrl,
+        cover: coverUrl,
+        updatedAt: new Date().toISOString()
+      });
+
+      showToast("Shop Updated Successfully");
+
+      setTimeout(() => {
+        window.location.href = "dashboard.html";
+      }, 1200);
+    } catch (error) {
+      setSavingState(false);
+      handleFirebaseError(error, "save-shop-changes");
+    }
+  });
+</script>
+
+</body>
+</html>

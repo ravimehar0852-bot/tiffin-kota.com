@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login — TiffinKota</title>
+<link rel="stylesheet" href="css/style.css">
+<style>
+  .auth-wrap{
+    min-height:100vh; display:flex; align-items:center; justify-content:center; padding:40px 20px;
+    background:radial-gradient(circle at 20% 10%, #FCE7D2 0%, transparent 45%),
+               radial-gradient(circle at 85% 90%, #F4D9B8 0%, transparent 40%),
+               var(--cream);
+  }
+  .auth-card{width:100%; max-width:420px;}
+  .auth-tabs{display:flex; background:var(--cream-dim); border-radius:12px; padding:4px; margin-top:28px;}
+  .auth-tab{flex:1; text-align:center; padding:11px; border-radius:9px; font-weight:600; font-size:14.5px; color:var(--ink-soft); transition:all .25s var(--ease);}
+  .auth-tab.active{background:var(--paper); color:var(--maroon); box-shadow:var(--shadow-sm);}
+  .field-label{font-size:13px; font-weight:600; color:var(--ink-soft); margin-bottom:8px; display:block;}
+  .phone-row{display:flex; gap:10px;}
+  .code-select, .phone-input, .otp-input{
+    border:1.5px solid var(--line); border-radius:12px; padding:15px 16px; font-size:15px;
+    background:var(--paper); color:var(--ink); width:100%; transition:border-color .2s;
+  }
+  .code-select{width:88px; flex:none;}
+  .phone-input:focus, .code-select:focus, .otp-input:focus{border-color:var(--terracotta);}
+  .divider{display:flex; align-items:center; gap:14px; margin:26px 0; color:var(--ink-soft); font-size:12.5px; text-transform:uppercase; letter-spacing:.08em;}
+  .divider::before, .divider::after{content:''; flex:1; height:1px; background:var(--line);}
+  .oauth-row{display:flex; gap:12px;}
+  .oauth-btn{
+    flex:1; display:flex; align-items:center; justify-content:center; gap:8px;
+    border:1.5px solid var(--line); border-radius:12px; padding:13px; font-weight:600; font-size:14px;
+    background:var(--paper); transition:border-color .2s;
+  }
+  .oauth-btn:hover{border-color:var(--maroon);}
+  .otp-boxes{display:flex; gap:10px; margin-top:16px;}
+  .otp-box{
+    width:100%; aspect-ratio:1; text-align:center; font-size:22px; font-family:'JetBrains Mono';
+    border:1.5px solid var(--line); border-radius:12px;
+  }
+  .otp-box:focus{border-color:var(--terracotta);}
+  .hidden{display:none;}
+</style>
+</head>
+<body>
+
+<div class="auth-wrap">
+  <div class="auth-card">
+    <div class="center">
+      <div style="font-family:'Fraunces'; font-weight:700; font-size:36px; color:var(--maroon);">TiffinKota</div>
+      <p style="color:var(--ink-soft); margin-top:6px; font-size:14.5px;">Premium Bistro Concierge</p>
+    </div>
+
+    <div class="card" style="padding:30px; margin-top:26px; border-radius:22px;">
+      <div class="auth-tabs">
+        <button class="auth-tab active" id="tabCustomer" onclick="switchTab('customer')">Customer</button>
+        <button class="auth-tab" id="tabPartner" onclick="switchTab('partner')">Partner</button>
+      </div>
+
+      <!-- PHONE STEP -->
+      <div id="stepPhone" class="mt-24">
+        <label class="field-label">Phone Number</label>
+        <div class="phone-row">
+          <select class="code-select"><option>+91</option><option>+1</option><option>+44</option></select>
+          <input type="tel" class="phone-input" id="phoneInput" placeholder="Enter mobile number" maxlength="10">
+        </div>
+        <button class="btn btn-primary btn-block mt-24" onclick="sendOtp()">Get OTP</button>
+
+        <div class="divider">or connect with</div>
+        <div class="oauth-row">
+          <button class="oauth-btn" onclick="showToast('Redirecting to Google Sign-in…')">🔵 Google</button>
+          <button class="oauth-btn" onclick="showToast('Opening email sign-in…')">✉️ Email</button>
+        </div>
+      </div>
+
+      <!-- OTP STEP -->
+      <div id="stepOtp" class="mt-24 hidden">
+        <p style="font-size:14px; color:var(--ink-soft);">Enter the 4-digit code sent to <b id="otpPhoneDisplay" style="color:var(--ink);"></b></p>
+        <div class="otp-boxes">
+          <input class="otp-box" maxlength="1" inputmode="numeric">
+          <input class="otp-box" maxlength="1" inputmode="numeric">
+          <input class="otp-box" maxlength="1" inputmode="numeric">
+          <input class="otp-box" maxlength="1" inputmode="numeric">
+        </div>
+        <button class="btn btn-primary btn-block mt-24" onclick="verifyOtp()">Verify &amp; Continue</button>
+        <button class="btn btn-ghost btn-block mt-16" onclick="backToPhone()">← Change number</button>
+      </div>
+    </div>
+
+    <p class="center mt-24" style="font-size:14px; color:var(--ink-soft);">
+      New to TiffinKota? <a href="#" style="color:var(--terracotta-dark); font-weight:600;">Create Account</a>
+    </p>
+    <p class="center mt-8" style="font-size:12px; color:var(--ink-soft); line-height:1.6;">
+      By signing in, you agree to our <a href="#" style="text-decoration:underline;">Terms of Service</a> and <a href="#" style="text-decoration:underline;">Privacy Policy</a>.
+    </p>
+    <p class="center mt-16"><a href="index.html" style="font-size:13px; color:var(--ink-soft);">← Back to home</a></p>
+  </div>
+</div>
+
+<script src="js/script.js"></script>
+<script>
+  let mode = 'customer';
+  function switchTab(t){
+    mode = t;
+    document.getElementById('tabCustomer').classList.toggle('active', t==='customer');
+    document.getElementById('tabPartner').classList.toggle('active', t==='partner');
+  }
+  function sendOtp(){
+    const phone = document.getElementById('phoneInput').value.trim();
+    if(phone.length !== 10 || isNaN(phone)){
+      showToast('Please enter a valid 10-digit mobile number');
+      return;
+    }
+    document.getElementById('otpPhoneDisplay').textContent = '+91 ' + phone;
+    document.getElementById('stepPhone').classList.add('hidden');
+    document.getElementById('stepOtp').classList.remove('hidden');
+    document.querySelector('.otp-box').focus();
+    showToast('OTP sent: 1234 (demo)');
+  }
+  function backToPhone(){
+    document.getElementById('stepOtp').classList.add('hidden');
+    document.getElementById('stepPhone').classList.remove('hidden');
+  }
+  function verifyOtp(){
+    const boxes = document.querySelectorAll('.otp-box');
+    const code = Array.from(boxes).map(b=>b.value).join('');
+    if(code.length !== 4){ showToast('Enter the complete 4-digit code'); return; }
+    showToast('Login successful! Redirecting…');
+    setTimeout(()=>{ window.location.href = mode === 'partner' ? 'dashboard.html' : 'kitchens.html'; }, 900);
+  }
+  document.querySelectorAll('.otp-box').forEach((box, i, arr) => {
+    box.addEventListener('input', () => { if(box.value && arr[i+1]) arr[i+1].focus(); });
+    box.addEventListener('keydown', (e) => { if(e.key === 'Backspace' && !box.value && arr[i-1]) arr[i-1].focus(); });
+  });
+</script>
+</body>
+</html>

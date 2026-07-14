@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TiffinKota — Premium Home-Cooked Tiffin Delivery in Kota</title>
+<meta name="description" content="Fresh, home-style tiffins delivered daily from Kota's most-loved kitchens. Subscribe once, eat well every day.">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="container nav-inner">
+    <a href="index.html" class="brand"><span class="brand-mark">TK</span>TiffinKota</a>
+    <div class="nav-links">
+      <a href="kitchens.html">Browse Kitchens</a>
+      <a href="index.html#how">How it Works</a>
+      <a href="index.html#kitchens">Popular Kitchens</a>
+      <a href="dashboard.html">Partner Dashboard</a>
+    </div>
+    <div class="nav-cta">
+      <a href="login.html" class="btn btn-outline btn-sm">Login</a>
+      <a href="kitchens.html" class="btn btn-primary btn-sm">Order Tiffin</a>
+      <button class="nav-toggle" aria-label="Menu">☰</button>
+    </div>
+  </div>
+</nav>
+
+<!-- ============ HERO ============ -->
+<header style="position:relative; overflow:hidden; padding:70px 0 40px;">
+  <div class="container" style="display:grid; grid-template-columns:1fr 1fr; gap:56px; align-items:center;">
+    <div>
+      <p class="eyebrow">Kota's Tiffin Network · Est. in your neighbourhood</p>
+      <h1 style="font-size:clamp(38px,5vw,58px); margin-top:14px;">
+        Home food,<br><span class="serif-italic">delivered daily</span><br>like family made it.
+      </h1>
+      <p style="font-size:17px; color:var(--ink-soft); margin-top:22px; max-width:460px; line-height:1.7;">
+        Swap mess food and last-minute Swiggy orders for a warm, home-cooked tiffin from a real kitchen near you — Veg, Jain and high-protein plans, delivered on time, every time.
+      </p>
+      <div class="flex gap-16 mt-32" style="flex-wrap:wrap;">
+        <a href="kitchens.html" class="btn btn-primary">Order Your Tiffin →</a>
+        <a href="#" class="btn btn-ghost" data-wa="Hi TiffinKota, I run a home kitchen and want to register as a partner.">Register Your Kitchen</a>
+      </div>
+      <div class="flex gap-16 mt-32" style="flex-wrap:wrap;">
+        <div>
+          <div style="font-family:'Fraunces'; font-size:26px; font-weight:700; color:var(--maroon);">120+</div>
+          <div style="font-size:12.5px; color:var(--ink-soft);">Verified home kitchens</div>
+        </div>
+        <div style="width:1px; background:var(--line);"></div>
+        <div>
+          <div style="font-family:'Fraunces'; font-size:26px; font-weight:700; color:var(--maroon);">18,000+</div>
+          <div style="font-size:12.5px; color:var(--ink-soft);">Tiffins served monthly</div>
+        </div>
+        <div style="width:1px; background:var(--line);"></div>
+        <div>
+          <div style="font-family:'Fraunces'; font-size:26px; font-weight:700; color:var(--maroon);">4.8★</div>
+          <div style="font-size:12.5px; color:var(--ink-soft);">Average kitchen rating</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Signature: animated steaming tiffin stack -->
+    <div style="position:relative; aspect-ratio:1/1; border-radius:32px; overflow:hidden;
+                background:linear-gradient(160deg, #4A1A0D 0%, #6B2413 55%, #F4762A 130%);">
+      <canvas id="steamCanvas" style="position:absolute; inset:0; width:100%; height:100%; z-index:2;"></canvas>
+      <svg viewBox="0 0 400 400" style="position:absolute; inset:0; width:100%; height:100%; z-index:1;">
+        <!-- three stacked tiffin dabbas, simplified geometric illustration -->
+        <ellipse cx="120" cy="330" rx="55" ry="12" fill="rgba(0,0,0,0.18)"/>
+        <rect x="72" y="270" width="96" height="62" rx="10" fill="#E8C874"/>
+        <rect x="72" y="270" width="96" height="14" rx="7" fill="#F4E3B0"/>
+        <rect x="112" y="252" width="16" height="20" fill="#B8862E"/>
+
+        <ellipse cx="205" cy="345" rx="62" ry="13" fill="rgba(0,0,0,0.2)"/>
+        <rect x="152" y="278" width="106" height="68" rx="10" fill="#F4762A"/>
+        <rect x="152" y="278" width="106" height="15" rx="7" fill="#FFA76B"/>
+        <rect x="196" y="258" width="18" height="22" fill="#D6611C"/>
+
+        <ellipse cx="290" cy="325" rx="52" ry="11" fill="rgba(0,0,0,0.18)"/>
+        <rect x="246" y="266" width="90" height="60" rx="10" fill="#E8C874"/>
+        <rect x="246" y="266" width="90" height="14" rx="7" fill="#F4E3B0"/>
+        <rect x="284" y="248" width="16" height="20" fill="#B8862E"/>
+      </svg>
+      <div style="position:absolute; bottom:22px; left:22px; right:22px; z-index:3;
+                  background:rgba(255,255,255,0.14); backdrop-filter:blur(10px);
+                  border:1px solid rgba(255,255,255,0.25); border-radius:16px; padding:16px 18px; color:#fff;">
+        <p style="font-size:12px; letter-spacing:.06em; text-transform:uppercase; opacity:.85;">Today, from Mom's Kitchen</p>
+        <p style="font-family:'Fraunces'; font-size:19px; font-weight:600; margin-top:4px;">Paneer Butter Masala · Roti · Rice</p>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ============ POPULAR KITCHENS ============ -->
+<section id="kitchens">
+  <div class="container">
+    <div class="section-head reveal">
+      <p class="eyebrow">Handpicked, home-run</p>
+      <h2>Popular kitchens near you</h2>
+      <p>Every kitchen on TiffinKota is visited and verified for hygiene before it goes live.</p>
+    </div>
+
+    <div class="reveal" style="display:grid; grid-template-columns:repeat(3,1fr); gap:26px;">
+      <div class="card" style="overflow:hidden;">
+        <div style="height:160px; background:linear-gradient(135deg,#F4762A,#B8862E); position:relative;">
+          <span class="rating" style="position:absolute; top:12px; left:12px;">★ 4.8</span>
+        </div>
+        <div style="padding:20px;">
+          <h3 style="font-size:19px;">Annapurna Rasoi</h3>
+          <p style="font-size:13px; color:var(--ink-soft); margin-top:4px;">Pure Vegetarian · Talwandi</p>
+          <div class="flex" style="justify-content:space-between; align-items:center; margin-top:16px;">
+            <span style="font-family:'JetBrains Mono'; font-weight:600; color:var(--maroon);">₹2,800<span style="font-weight:400; color:var(--ink-soft); font-size:12px;">/mo</span></span>
+            <a href="checkout.html" class="btn btn-primary btn-sm">Select</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="overflow:hidden;">
+        <div style="height:160px; background:linear-gradient(135deg,#6B2413,#F4762A); position:relative;">
+          <span class="rating" style="position:absolute; top:12px; left:12px;">★ 4.6</span>
+        </div>
+        <div style="padding:20px;">
+          <h3 style="font-size:19px;">The Bistro Box</h3>
+          <p style="font-size:13px; color:var(--ink-soft); margin-top:4px;">Gourmet Meals · Landmark City</p>
+          <div class="flex" style="justify-content:space-between; align-items:center; margin-top:16px;">
+            <span style="font-family:'JetBrains Mono'; font-weight:600; color:var(--maroon);">₹3,500<span style="font-weight:400; color:var(--ink-soft); font-size:12px;">/mo</span></span>
+            <a href="checkout.html" class="btn btn-primary btn-sm">Select</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="overflow:hidden;">
+        <div style="height:160px; background:linear-gradient(135deg,#3C7A4E,#B8862E); position:relative;">
+          <span class="rating" style="position:absolute; top:12px; left:12px;">★ 4.9</span>
+          <span class="chip" style="position:absolute; top:12px; right:12px; background:#fff;">Fastest</span>
+        </div>
+        <div style="padding:20px;">
+          <h3 style="font-size:19px;">Healthy Bites</h3>
+          <p style="font-size:13px; color:var(--ink-soft); margin-top:4px;">Diet Specific · Kunadi</p>
+          <div class="flex" style="justify-content:space-between; align-items:center; margin-top:16px;">
+            <span style="font-family:'JetBrains Mono'; font-weight:600; color:var(--maroon);">₹3,200<span style="font-weight:400; color:var(--ink-soft); font-size:12px;">/mo</span></span>
+            <a href="checkout.html" class="btn btn-primary btn-sm">Select</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="center mt-32 reveal">
+      <a href="kitchens.html" class="btn btn-outline">View all Kitchens →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ HOW IT WORKS ============ -->
+<section id="how" style="background:var(--cream-dim);">
+  <div class="container">
+    <div class="section-head center reveal">
+      <p class="eyebrow">Three steps, zero effort</p>
+      <h2>How TiffinKota works</h2>
+    </div>
+    <div class="reveal" style="display:grid; grid-template-columns:repeat(3,1fr); gap:32px;">
+      <div style="text-align:center; padding:0 16px;">
+        <div style="width:64px; height:64px; border-radius:18px; background:var(--paper); box-shadow:var(--shadow-sm);
+                    display:flex; align-items:center; justify-content:center; font-size:26px; margin:0 auto 18px;">🗓️</div>
+        <h3 style="font-size:18px;">Select a plan</h3>
+        <p style="color:var(--ink-soft); font-size:14.5px; margin-top:8px; line-height:1.6;">Choose from Veg, Jain or high-protein tiffin plans, tailored to your goals.</p>
+      </div>
+      <div style="text-align:center; padding:0 16px;">
+        <div style="width:64px; height:64px; border-radius:18px; background:var(--paper); box-shadow:var(--shadow-sm);
+                    display:flex; align-items:center; justify-content:center; font-size:26px; margin:0 auto 18px;">🛵</div>
+        <h3 style="font-size:18px;">Daily delivery</h3>
+        <p style="color:var(--ink-soft); font-size:14.5px; margin-top:8px; line-height:1.6;">Your partner kitchen delivers fresh, warm tiffins to your door or office, on time.</p>
+      </div>
+      <div style="text-align:center; padding:0 16px;">
+        <div style="width:64px; height:64px; border-radius:18px; background:var(--paper); box-shadow:var(--shadow-sm);
+                    display:flex; align-items:center; justify-content:center; font-size:26px; margin:0 auto 18px;">❤️</div>
+        <h3 style="font-size:18px;">Healthy meals</h3>
+        <p style="color:var(--ink-soft); font-size:14.5px; margin-top:8px; line-height:1.6;">Balanced, home-style food that keeps you energised through the day.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ LIVE TRACKING ============ -->
+<section>
+  <div class="container" style="display:grid; grid-template-columns:1.1fr 0.9fr; gap:56px; align-items:center;">
+    <div class="reveal">
+      <p class="eyebrow">Never wonder where your tiffin is</p>
+      <h2 style="margin-top:10px;">Track your tiffin in real-time</h2>
+      <p style="color:var(--ink-soft); margin-top:14px; line-height:1.7; max-width:460px;">
+        Our advanced logistics keep you updated from the kitchen to your table — see exactly when your delivery partner leaves, and when to expect them.
+      </p>
+      <a href="kitchens.html" class="btn btn-dark mt-24">Start Your Subscription</a>
+    </div>
+    <div class="card reveal" style="padding:26px; border-radius:22px;">
+      <div class="flex" style="justify-content:space-between; align-items:center;">
+        <span style="font-weight:600; font-size:15px;">Active Delivery</span>
+        <span class="chip" style="background:var(--sage-bg); color:var(--sage);">On the way</span>
+      </div>
+      <div style="height:6px; background:var(--line); border-radius:4px; margin-top:20px; position:relative; overflow:hidden;">
+        <div style="position:absolute; left:0; top:0; bottom:0; width:62%; background:linear-gradient(90deg,var(--terracotta),var(--gold)); border-radius:4px;"></div>
+      </div>
+      <div class="flex" style="justify-content:space-between; font-size:11px; color:var(--ink-soft); margin-top:8px; text-transform:uppercase; letter-spacing:.05em;">
+        <span>Kitchen</span><span>In Transit</span><span>Arrived</span>
+      </div>
+      <div class="flex" style="align-items:center; gap:12px; margin-top:24px; padding-top:20px; border-top:1px solid var(--line);">
+        <div style="width:44px; height:44px; border-radius:50%; background:linear-gradient(135deg,#F4762A,#6B2413);"></div>
+        <div>
+          <p style="font-weight:600; font-size:14.5px;">Rahul Sharma</p>
+          <p style="font-size:12px; color:var(--ink-soft);">Your Delivery Partner</p>
+        </div>
+        <span style="margin-left:auto; font-family:'JetBrains Mono'; font-size:13px; color:var(--maroon); font-weight:600;">ETA 7:16 PM</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PARTNER CTA STRIP ============ -->
+<section style="padding:0 0 90px;">
+  <div class="container">
+    <div class="reveal" style="background:linear-gradient(135deg, var(--maroon), var(--maroon-deep)); border-radius:28px; padding:52px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:24px; color:#fff;">
+      <div>
+        <p class="eyebrow" style="color:var(--gold-light);">For home kitchens &amp; caterers</p>
+        <h2 style="color:#fff; font-size:28px; margin-top:8px;">Run your kitchen with TiffinKota's Partner Dashboard</h2>
+        <p style="color:#E7D5C4; margin-top:10px; max-width:440px;">Manage orders, menus and earnings from a single, simple dashboard built for busy kitchens.</p>
+      </div>
+      <a href="dashboard.html" class="btn btn-primary">Explore Partner Dashboard →</a>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand">TiffinKota</div>
+        <p class="footer-desc">Bringing the authentic taste of homemade food to the hard-working students and professionals of Kota. Premium, healthy, and always on time.</p>
+        <div class="social-row">
+          <a href="#" data-wa="Hi TiffinKota!">𝕎</a>
+          <a href="#">ⓕ</a>
+          <a href="#">ⓘ</a>
+        </div>
+      </div>
+      <div>
+        <h4>For Users</h4>
+        <ul>
+          <li><a href="kitchens.html">Order Tiffin</a></li>
+          <li><a href="kitchens.html">Pricing &amp; Plans</a></li>
+          <li><a href="#">Student Discounts</a></li>
+          <li><a href="#">Meal Customiser</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>For Partners</h4>
+        <ul>
+          <li><a href="dashboard.html">Register Kitchen</a></li>
+          <li><a href="dashboard.html">Delivery Fleet</a></li>
+          <li><a href="dashboard.html">Partner Dashboard</a></li>
+          <li><a href="#">Quality Standards</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Connect</h4>
+        <ul>
+          <li><a href="#" data-wa="Hi TiffinKota, I have a question.">+91 98281 76543</a></li>
+          <li><a href="#">hello@tiffinkota.in</a></li>
+          <li><a href="#">Talwandi, Kota, Rajasthan 324005</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 TiffinKota Services Pvt. Ltd. All rights reserved.</span>
+      <span>Made with warmth in Kota, Rajasthan</span>
+    </div>
+  </div>
+</footer>
+
+<a href="#" class="wa-float" data-wa="Hi TiffinKota, I'd like to order a tiffin!" aria-label="Chat on WhatsApp">📞</a>
+
+<script src="js/script.js"></script>
+</body>
+</html>
