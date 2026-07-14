@@ -68,8 +68,12 @@
 
         <div class="divider">or connect with</div>
         <div class="oauth-row">
-          <button class="oauth-btn" onclick="showToast('Redirecting to Google Sign-in…')">🔵 Google</button>
-          <button class="oauth-btn" onclick="showToast('Opening email sign-in…')">✉️ Email</button>
+          <button class="oauth-btn" id="googleLoginBtn">
+    🔵 Google
+          </button>
+          <button class="oauth-btn" id="emailLoginBtn">
+    ✉️ Email
+          </button>
         </div>
       </div>
 
@@ -88,8 +92,17 @@
     </div>
 
     <p class="center mt-24" style="font-size:14px; color:var(--ink-soft);">
-      New to TiffinKota? <a href="#" style="color:var(--terracotta-dark); font-weight:600;">Create Account</a>
-    </p>
+<p class="center mt-24" style="font-size:14px; color:var(--ink-soft);">
+    <span id="accountText">
+        New to TiffinKota?
+    </span>
+
+    <a href="#" id="createAccountBtn"
+       style="color:var(--terracotta-dark);font-weight:600;">
+       Create Account
+    </a>
+</p>
+    
     <p class="center mt-8" style="font-size:12px; color:var(--ink-soft); line-height:1.6;">
       By signing in, you agree to our <a href="#" style="text-decoration:underline;">Terms of Service</a> and <a href="#" style="text-decoration:underline;">Privacy Policy</a>.
     </p>
