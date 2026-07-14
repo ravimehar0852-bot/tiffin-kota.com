@@ -88,6 +88,48 @@ async function createShop(e) {
         return;
     }
 
-    // PART 2 me Firestore Save hoga
-    alert("Validation successful. Ready to save shop.");
-}
+    try {
+
+    await addDoc(collection(db, "shops"), {
+
+        ownerId: currentUser.uid,
+
+        shopName: shopName,
+
+        ownerName: ownerName,
+
+        phone: phone,
+
+        email: email,
+
+        city: city,
+
+        address: address,
+
+        category: category,
+
+        openTime: openTime,
+
+        closeTime: closeTime,
+
+        deliveryTime: deliveryTime,
+
+        minimumOrder: Number(minimumOrder),
+
+        status: "active",
+
+        createdAt: serverTimestamp()
+
+    });
+
+    alert("Shop Created Successfully 🎉");
+
+    window.location.href = "partner-dashboard.html";
+
+} catch (error) {
+
+    console.error(error);
+
+    alert("Failed to create shop.");
+
+    }
