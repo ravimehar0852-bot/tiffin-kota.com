@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Create Shop | TiffinKota</title>
+
+<link rel="stylesheet" href="style.css">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+background:#f8f6f2;
+}
+
+header{
+background:#6B1E1E;
+color:white;
+padding:18px;
+text-align:center;
+}
+
+.container{
+max-width:700px;
+margin:30px auto;
+background:white;
+padding:25px;
+border-radius:15px;
+box-shadow:0 5px 15px rgba(0,0,0,.1);
+}
+
+h2{
+margin-bottom:20px;
+text-align:center;
+}
+
+.input-group{
+margin-bottom:18px;
+}
+
+label{
+display:block;
+margin-bottom:6px;
+font-weight:bold;
+}
+
+input,select,textarea{
+width:100%;
+padding:12px;
+border:1px solid #ccc;
+border-radius:10px;
+font-size:15px;
+}
+
+textarea{
+resize:none;
+height:90px;
+}
+
+button{
+width:100%;
+padding:15px;
+background:#6B1E1E;
+color:white;
+border:none;
+border-radius:10px;
+font-size:17px;
+cursor:pointer;
+margin-top:15px;
+}
+
+button:hover{
+background:#8a2d2d;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+<h1>Create Your Shop</h1>
+</header>
+
+<div class="container">
+
+<h2>Partner Shop Details</h2>
+
+<form id="shopForm">
+
+<div class="input-group">
+<label>Shop Name</label>
+<input type="text" id="shopName" required>
+</div>
+
+<div class="input-group">
+<label>Owner Name</label>
+<input type="text" id="ownerName" required>
+</div>
+
+<div class="input-group">
+<label>Phone Number</label>
+<input type="tel" id="phone" required>
+</div>
+
+<div class="input-group">
+<label>Email</label>
+<input type="email" id="email">
+</div>
+
+<div class="input-group">
+<label>City</label>
+<input type="text" id="city" required>
+</div>
+
+<div class="input-group">
+<label>Address</label>
+<textarea id="address" required></textarea>
+</div>
+
+<div class="input-group">
+<label>Food Category</label>
+
+<select id="category">
+
+<option>Tiffin Service</option>
+
+<option>Restaurant</option>
+
+<option>Cafe</option>
+
+<option>Fast Food</option>
+
+<option>Mess</option>
+
+<option>Bakery</option>
+
+</select>
+
+</div>
+
+<div class="input-group">
+<label>Opening Time</label>
+<input type="time" id="openTime">
+</div>
+
+<div class="input-group">
+<label>Closing Time</label>
+<input type="time" id="closeTime">
+</div>
+
+<div class="input-group">
+<label>Delivery Time</label>
+<input type="text" placeholder="30 Minutes">
+</div>
+
+<div class="input-group">
+<label>Minimum Order Amount</label>
+<input type="number" placeholder="100">
+</div>
+
+<div class="input-group">
+<label>Shop Logo</label>
+<input type="file" accept="image/*">
+</div>
+
+<div class="input-group">
+<label>Shop Banner</label>
+<input type="file" accept="image/*">
+</div>
+
+<button type="submit">
+Create Shop
+</button>
+
+</form>
+
+</div>
+
+<script>
+
+document
+.getElementById("shopForm")
+.addEventListener("submit",function(e){
+
+e.preventDefault();
+
+alert("Next Step me Firebase me Shop Save hogi.");
+
+window.location.href="partner-dashboard.html";
+
+});
+
+</script>
+
+</body>
+</html>
