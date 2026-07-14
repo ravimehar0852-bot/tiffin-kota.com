@@ -1,5 +1,10 @@
 import { auth, db } from "./firebase.js";
-
+import {
+  collection,
+  query,
+  where,
+  getDocs
+} from "https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js";
 import {
   GoogleAuthProvider,
   signInWithPopup
@@ -70,13 +75,41 @@ createdAt:Date.now()
 
 const data=(await getDoc(ref)).data();
 
-if(data.role==="partner"){
+import {
+  collection,
+  query,
+  where,
+  getDocs
+} from "https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js";
 
-window.location.href="create-shop.html";
+// ...
 
-}else{
+if (data.role === "partner") {
 
-window.location.href="index.html";
+    const q = query(
+        collection(db, "shops"),
+        where("ownerId", "==", user.uid)
+    );
+
+    const snapshot = await getDocs(q);
+
+    if (snapshot.empty) {
+
+        // Shop nahi bani hai
+        window.location.href = "create-shop.html";
+
+    } else {
+
+        // Shop pehle se bani hui hai
+        window.location.href = "partner-dashboard.html";
+
+    }
+
+} else {
+
+    window.location.href = "customer-dashboard.html";
+
+}
 
 }
 
